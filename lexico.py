@@ -9,15 +9,64 @@
 '''
 import re,sys
 
-
+tokens = []
+identificadores = []
+numerais = []
+literais = []
+separadores = [" ","\n","\t"]
+reservadas = [ ["int"], ['float'], ['char'],['if'], ['for'], ['while'],['return']
+,['break'],['continue'],['else' ] ]
 
 codigoFonte = open(sys.argv[1], 'r')
+token = ""
+contLinha = 0;
+contColuna = 0
 
-texto = codigoFonte.read(1)
-print (texto)
-#texto = codigoFonte.readlines()
-#for linha in texto:
-#    print (linha)
+while True:
+    token = ""
+    flag = 0
+    while True:
+        caracter = codigoFonte.read(1)
+        #verificar os separadores
+        for i in separadores:
+            if ((caracter == i) or (caracter == "")):
+                flag = 1
+        #break achou 1 token
+        if flag == 1:
+            break
+        #montar token
+        else:
+            token = token+caracter
+
+    #adiciona token a lista de tokens
+    tokens.append(token)
+    #break do end of file
+    if caracter == "":
+        break
 
 
-codigoFonte.close
+    #verificacao se eh uma palavra reservadas
+
+    contAux = 0
+    for i in reservadas:
+            for j in i:
+                if token is j:
+                    reservadas[contAux].append(contLinha)
+                    reservadas[contAux].append(contColuna)
+            contAux = contAux + 1;
+    #expressao regular para indetificadores
+
+
+    #expressao regular para numerais
+
+
+    #expressao regular para literais
+
+
+
+codigoFonte.close()
+#print (reservadas[0][1])
+aux =0 ;
+for i in tokens:
+    print ( aux , i)
+    aux = aux +1
