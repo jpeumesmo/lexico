@@ -3,7 +3,7 @@
 int main(){
 
   int a;
-  int integer = 0;
+  int integer = 1;
   int b = 2.5;
 
   a = integer + b;

@@ -19,7 +19,7 @@ reservadas = [ ["int"], ['float'], ['char'],['if'], ['for'], ['while'],['return'
 
 codigoFonte = open(sys.argv[1], 'r')
 token = ""
-contLinha = 0;
+contLinha = 0
 contColuna = 0
 
 while True:
@@ -27,10 +27,14 @@ while True:
     flag = 0
     while True:
         caracter = codigoFonte.read(1)
+        contColuna = contColuna + 1
         #verificar os separadores
         for i in separadores:
             if ((caracter == i) or (caracter == "")):
                 flag = 1
+                if (caracter == "\n"):
+                    contLinha = contLinha +1
+                    contColuna = 0
         #break achou 1 token
         if flag == 1:
             break
@@ -39,7 +43,7 @@ while True:
             token = token+caracter
 
     #adiciona token a lista de tokens
-    tokens.append(token)
+    tokens.append([token,contLinha,contColuna])
     #break do end of file
     if caracter == "":
         break
@@ -66,7 +70,5 @@ while True:
 
 codigoFonte.close()
 #print (reservadas[0][1])
-aux =0 ;
 for i in tokens:
-    print ( aux , i)
-    aux = aux +1
+    print (i)
