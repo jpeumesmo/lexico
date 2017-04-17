@@ -1,0 +1,10 @@
+Token 	 Linha 	 Coluna 
+-----------------------------------
+main	3	9	
+a	5	8	
+integer	6	14	
+b	7	8	
+a	8	10	
+a	13	4	
+integer	13	14	
+b	13	18	

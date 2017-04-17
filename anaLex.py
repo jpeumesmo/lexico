@@ -7,7 +7,7 @@
 * Moreira Ferreira
 * ----------------------------------------------------------------------------
 '''
-import re,sys
+import re,sys,os
 
 
 ##############################TABELAS########################################
@@ -17,10 +17,28 @@ literais = []
 separadores = []
 reservadas = []
 operadores = []
+includes = []
 
+listaReservadas = [ 'int', 'float', 'char','if', 'for', 'while','return'
+,'break','continue','else'  ]
 ################################ABERTURA DO ARQ##############################
 codigoFonte = open(sys.argv[1], 'r')
-tabelas = open("/home/jpeumesmo/UFSJ/Compiladores/lexico/saida.txt", 'w')
+
+path = sys.path[0]
+
+os.system("rm -rf saida")
+os.system("mkdir saida")
+
+saidaId = open(path+"/saida/identificadores.txt", 'w')
+saidaNum = open(path+"/saida/numerais.txt", 'w')
+saidaLit = open(path+"/saida/literais.txt", 'w')
+saidaSep = open(path+"/saida/separadores.txt", 'w')
+saidaRes = open(path+"/saida/reservadas.txt", 'w')
+saidaOp = open(path+"/saida/operadores.txt", 'w')
+saidaIncl = open(path+"/saida/inclues.txt", 'w')
+
+
+
 ########################VARIAVEIS CONTADORAS E AUXILIARES#####################
 contLinha = 1
 contColuna = 0
@@ -57,13 +75,10 @@ else:
                     contLinha = contLinha + 1
                     contColuna = 0
                 else:
-                    numerais.append(token)
-                    caracter = codigoFonte.read(1)
-                    contColuna = contColuna + 1
+                    numerais.append([token,contLinha,contColuna])
+
                     break;
 
-    #    elif re.match("\#",caracter) is not None:
-            ############include encontrado#############
         elif re.match("\"",caracter) is not None:
             ###########LITERAL ENCONTRADO##################
             token = token + caracter
@@ -72,7 +87,7 @@ else:
                 contColuna = contColuna + 1
                 if re.match("\"",caracter) is not None:
                     token = token + caracter
-                    literais.append(token)
+                    literais.append([token,contLinha,contColuna])
                     caracter = codigoFonte.read(1)
                     contColuna = contColuna + 1
                     break
@@ -88,7 +103,7 @@ else:
             contColuna = contColuna + 1
             if re.match("\=",caracter) is not None:
                 token = token + caracter
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -104,7 +119,7 @@ else:
             contColuna = contColuna + 1
             if re.match("\=",caracter) is not None:
                 token = token + caracter
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -113,7 +128,7 @@ else:
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
-                sys.exit("Erro! 2" )
+                sys.exit("Erro! linha %d, coluna %d"%(contLinha,contColuna) )
 
         elif re.match("\&",caracter) is not None:
             ##########ADN LOGICO ENCONTRADO#############
@@ -122,7 +137,7 @@ else:
             contColuna = contColuna + 1
             if re.match("\&",caracter) is not None:
                 token = token + caracter
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -131,7 +146,7 @@ else:
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
-                sys.exit("Erro! 3" )
+                sys.exit("Erro! linha %d, coluna %d"%(contLinha,contColuna) )
 
         elif re.match("\|",caracter) is not None:
             ############# OU LOGICO ENCONTRADO###########
@@ -140,7 +155,7 @@ else:
             contColuna = contColuna + 1
             if re.match("\|",caracter) is not None:
                 token = token + caracter
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -149,7 +164,7 @@ else:
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
-                sys.exit("Erro! 4" )
+                sys.exit("Erro! linha %d, coluna %d"%(contLinha,contColuna) )
 
         elif re.match("\=",caracter) is not None:
             ############ATRIBUICAO OU EQUIVALENCIA ENCONTRADA#########
@@ -158,7 +173,7 @@ else:
             contColuna = contColuna + 1
             if re.match("\=",caracter) is not None:
                 token = token + caracter
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -167,7 +182,7 @@ else:
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
         elif re.match("\+",caracter):
             #############SOMA OU INCREMENTO ENCONTRADO###############
             token = token + caracter
@@ -175,7 +190,7 @@ else:
             contColuna = contColuna + 1
             if re.match("\+",caracter) is not None:
                 token = token + caracter
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -184,7 +199,7 @@ else:
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
 
         elif re.match("\-",caracter):
             ###########SUBTRACAO OU DECREMENTO ENCONTRADO############
@@ -193,7 +208,7 @@ else:
             contColuna = contColuna + 1
             if re.match("\-",caracter) is not None:
                 token = token + caracter
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
                 break
@@ -203,22 +218,24 @@ else:
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
-                operadores.append(token)
+                operadores.append([token,contLinha,contColuna])
 
         elif re.match("\*|\^",caracter) is not None:
             ###########OPERACAO ARITIMETICA ENCONTRADA##############
             token = token + caracter
             caracter = codigoFonte.read(1)
             contColuna = contColuna + 1
-            if re.match("[a-z]|[A-Z]|\_|\s",caracter) is not None: #DIVISAO
-                operadores.append(token)
+            if re.match("[a-z]|[A-Z]|\_",caracter) is not None: #DIVISAO
+                operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
                 contColuna = 0
+                caracter = codigoFonte.read(1)
+                contColuna = contColuna + 1
             else:
-                sys.exit("Erro! 5" )
+                sys.exit("Erro! linha %d, coluna %d"%(contLinha,contColuna) )
         elif re.match("\/",caracter) is not None:
             ################COMENTARIO OU DIVISAO ENCONTRADO###################
             token = token + caracter
@@ -245,22 +262,21 @@ else:
                         if re.match("\/",caracter) is not None:
                             caracter = codigoFonte.read(1)
                             break
-            elif re.match("[a-z]|[A-Z]|\_|\s",caracter) is not None: #DIVISAO
-                operadores.append(token)
-                caracter = codigoFonte.read(1)
-                contColuna = contColuna + 1
+            elif re.match("[a-z]|[A-Z]|\_|\ ",caracter) is not None: #DIVISAO
+                operadores.append([token,contLinha,contColuna])
+
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
                 contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
-                sys.exit("Erro! 6" )
+                sys.exit("Erro! linha %d, coluna %d"%(contLinha,contColuna) )
 
         elif re.match("\;|\[|\]|\(|\)|\{|\}|\,",caracter) is not None:
         ##################SEPARADOR ENCONTRADO####################
             token = token + caracter
-            separadores.append(token)
+            separadores.append([token,contLinha,contColuna])
             caracter = codigoFonte.read(1)
             contColuna = contColuna + 1
 
@@ -268,16 +284,32 @@ else:
             contLinha = contLinha + 1
             contColuna = 0
             caracter = codigoFonte.read(1)
-            contColuna = 0
+            contColuna =  contColuna + 1
 
-        elif re.match("\s",caracter) is not None:
+        elif re.match("\ ",caracter) is not None:
             caracter = codigoFonte.read(1)
             contColuna = contColuna + 1
 
-        elif re.match("\.|\#",caracter) is not None:
+        elif re.match("\.",caracter) is not None:
             caracter = codigoFonte.read(1)
             contColuna = contColuna + 1
 
+        elif re.match("\#",caracter) is not None:
+            token = token + caracter
+            while True:
+                caracter = codigoFonte.read(1)
+                contColuna = contColuna + 1
+                if re.match("\>",caracter) is not None:
+                        token = token + caracter
+                        includes.append([token,contLinha,contColuna])
+                        caracter = codigoFonte.read(1)
+                        contColuna = contColuna + 1
+                        break
+                elif re.match("\n",caracter) is not None:
+                    contLinha = contLinha + 1
+                    contColuna = 0
+                else:
+                    token = token + caracter
         elif re.match("[a-z]|[A-Z]|\_",caracter) is not None:
         ###############IDENTIFICADOR OU PALAVRA RESERVADA ENCONTRADA######
             token = token + caracter
@@ -286,17 +318,75 @@ else:
                 contColuna = contColuna + 1
                 if re.match("[a-z]|[A-Z]|\_",caracter) is not None:
                     token = token + caracter
+                elif re.match("\n",caracter):
+                    contLinha = contLinha + 1
+                    contColuna = 0
                 else:
+                    identificadores.append([token,contLinha,contColuna])
                     break
-            if re.match("if|else|while|return|continue|break|int|char|float|for",token) is not None:
-                reservadas.append(token)
-            else:
-                identificadores.append(token)
 
         else:
-            sys.exit("Erro! 7 c %d l %d"%(contColuna,contLinha) )
+            sys.exit("Erro! linha %d, coluna %d"%(contLinha,contColuna) )
 
+
+for i in identificadores:
+        if(i[0] in listaReservadas):
+            reservadas.append(i)
+            identificadores.remove(i)
+
+
+
+
+saidaRes.write("Token \t Linha \t Coluna \n-----------------------------------\n")
 for i in reservadas:
-    tabelas.write(i+"\n")
-tabelas.close()
+    for j in i:
+        saidaRes.write(str(j)+"\t")
+    saidaRes.write("\n")
+
+saidaId.write("Token \t Linha \t Coluna \n-----------------------------------\n")
+for i in identificadores:
+    for j in i:
+        saidaId.write(str(j)+"\t")
+    saidaId.write("\n")
+
+saidaNum.write("Token \t Linha \t Coluna \n-----------------------------------\n")
+for i in numerais:
+    for j in i:
+        saidaNum.write(str(j)+"\t")
+    saidaNum.write("\n")
+
+saidaLit.write("Token \t Linha \t Coluna \n-----------------------------------\n")
+for i in literais:
+    for j in i:
+        saidaLit.write(str(j)+"\t")
+    saidaLit.write("\n")
+
+saidaSep.write("Token \t Linha \t Coluna \n-----------------------------------\n")
+for i in separadores:
+    for j in i:
+        saidaSep.write(str(j)+"\t")
+    saidaSep.write("\n")
+
+saidaOp.write("Token \t Linha \t Coluna \n-----------------------------------\n")
+for i in operadores:
+    for j in i:
+        saidaOp.write(str(j)+"\t")
+    saidaOp.write("\n")
+
+saidaIncl.write("Token \t Linha \t Coluna \n-----------------------------------\n")
+for i in includes:
+    for j in i:
+        saidaIncl.write(str(j)+"\t")
+    saidaIncl.write("\n")
+
+saidaId.close()
+saidaNum.close()
+saidaLit.close()
+saidaSep.close()
+saidaRes.close()
+saidaOp.close()
+saidaIncl.close()
+
+codigoFonte.close()
+
 print("fim")

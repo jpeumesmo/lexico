@@ -1,0 +1,9 @@
+Token 	 Linha 	 Coluna 
+-----------------------------------
+int	3	4	
+int	5	6	
+int	6	6	
+int	7	6	
+float	8	8	
+char	12	1	
+return	17	9	

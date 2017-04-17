@@ -1,6 +1,0 @@
-int
-int
-int
-integer
-int
-integer
