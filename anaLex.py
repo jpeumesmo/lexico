@@ -11,7 +11,6 @@ import re,sys
 
 
 ##############################TABELAS########################################
-tokens = []
 identificadores = []
 numerais = []
 literais = []
@@ -56,6 +55,7 @@ else:
                     token = token + caracter
                 elif re.match("\n",caracter):
                     contLinha = contLinha + 1
+                    contColuna = 0
                 else:
                     numerais.append(token)
                     caracter = codigoFonte.read(1)
@@ -78,6 +78,7 @@ else:
                     break
                 elif re.match("\n",caracter):
                     contLinha = contLinha + 1
+                    contColuna = 0
                 else:
                     token = token + caracter
         elif re.match("\<|\>",caracter) is not None:
@@ -92,6 +93,7 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
 
@@ -107,6 +109,7 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
@@ -124,6 +127,7 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
@@ -141,6 +145,7 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
@@ -158,6 +163,7 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
@@ -174,6 +180,7 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
@@ -192,6 +199,7 @@ else:
                 break
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
@@ -208,6 +216,7 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
             else:
                 sys.exit("Erro! 5" )
         elif re.match("\/",caracter) is not None:
@@ -220,7 +229,9 @@ else:
                     caracter = codigoFonte.read(1)
                     if re.match("\n",caracter):
                         contLinha = contLinha + 1
+                        contColuna = 0
                         caracter = codigoFonte.read(1)
+                        contColuna = contColuna + 1
                         break
             elif re.match("\*",caracter) is not None: #COMENTARIO DE BLOCO
                 while True:
@@ -228,6 +239,7 @@ else:
                     contColuna = contColuna + 1
                     if re.match("\n",caracter):
                         contLinha = contLinha + 1
+                        contColuna = 0
                     if re.match("\*",caracter) is not None:
                         caracter = codigoFonte.read(1)
                         if re.match("\/",caracter) is not None:
@@ -239,15 +251,30 @@ else:
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
+                contColuna = 0
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             else:
                 sys.exit("Erro! 6" )
 
-        elif re.match("\;|\[|\(|\{|\,|.|\n|\t|\s",caracter) is not None:
+        elif re.match("\;|\[|\]|\(|\)|\{|\}|\,",caracter) is not None:
         ##################SEPARADOR ENCONTRADO####################
             token = token + caracter
             separadores.append(token)
+            caracter = codigoFonte.read(1)
+            contColuna = contColuna + 1
+
+        elif re.match("\n",caracter) is not None:
+            contLinha = contLinha + 1
+            contColuna = 0
+            caracter = codigoFonte.read(1)
+            contColuna = 0
+
+        elif re.match("\s",caracter) is not None:
+            caracter = codigoFonte.read(1)
+            contColuna = contColuna + 1
+
+        elif re.match("\.|\#",caracter) is not None:
             caracter = codigoFonte.read(1)
             contColuna = contColuna + 1
 
@@ -267,7 +294,9 @@ else:
                 identificadores.append(token)
 
         else:
-            sys.exit("Erro! 7" )
+            sys.exit("Erro! 7 c %d l %d"%(contColuna,contLinha) )
 
 for i in reservadas:
-    tabelas.write(i)
+    tabelas.write(i+"\n")
+tabelas.close()
+print("fim")
