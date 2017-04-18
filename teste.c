@@ -14,5 +14,11 @@ int main(){
 //asdasdasda
 /*
 */
+  ++
+  --
+  ||
+  &&
+  ^
+  *
   return 0;
 }

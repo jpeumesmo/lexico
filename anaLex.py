@@ -211,7 +211,7 @@ else:
                 operadores.append([token,contLinha,contColuna])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
-                break
+                
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
                 contColuna = 0

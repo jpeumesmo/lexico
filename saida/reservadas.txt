@@ -6,4 +6,4 @@ int	6	6
 int	7	6	
 float	8	8	
 char	12	1	
-return	17	9	
+return	23	9	
