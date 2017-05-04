@@ -11,6 +11,7 @@ import re,sys,os
 
 
 ##############################TABELAS########################################
+tokens = []
 identificadores = []
 numerais = []
 literais = []
@@ -36,6 +37,7 @@ saidaSep = open(path+"/saida/separadores.txt", 'w')
 saidaRes = open(path+"/saida/reservadas.txt", 'w')
 saidaOp = open(path+"/saida/operadores.txt", 'w')
 saidaIncl = open(path+"/saida/inclues.txt", 'w')
+saidaToken = open(path+"/saida/tokens.txt",'w')
 
 
 
@@ -76,7 +78,7 @@ else:
                     contColuna = 0
                 else:
                     numerais.append([token,contLinha,contColuna])
-
+                    tokens.append([token,contLinha,contColuna,0,"NUM"])
                     break;
 
         elif re.match("\"",caracter) is not None:
@@ -88,6 +90,7 @@ else:
                 if re.match("\"",caracter) is not None:
                     token = token + caracter
                     literais.append([token,contLinha,contColuna])
+                    tokens.append([token,contLinha,contColuna,1,"LIT"])
                     caracter = codigoFonte.read(1)
                     contColuna = contColuna + 1
                     break
@@ -104,6 +107,7 @@ else:
             if re.match("\=",caracter) is not None:
                 token = token + caracter
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -120,6 +124,7 @@ else:
             if re.match("\=",caracter) is not None:
                 token = token + caracter
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -138,6 +143,7 @@ else:
             if re.match("\&",caracter) is not None:
                 token = token + caracter
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -156,6 +162,7 @@ else:
             if re.match("\|",caracter) is not None:
                 token = token + caracter
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -174,6 +181,7 @@ else:
             if re.match("\=",caracter) is not None:
                 token = token + caracter
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -183,6 +191,7 @@ else:
                 contColuna = contColuna + 1
             else:
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
         elif re.match("\+",caracter):
             #############SOMA OU INCREMENTO ENCONTRADO###############
             token = token + caracter
@@ -191,6 +200,7 @@ else:
             if re.match("\+",caracter) is not None:
                 token = token + caracter
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -200,6 +210,7 @@ else:
                 contColuna = contColuna + 1
             else:
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
 
         elif re.match("\-",caracter):
             ###########SUBTRACAO OU DECREMENTO ENCONTRADO############
@@ -209,9 +220,10 @@ else:
             if re.match("\-",caracter) is not None:
                 token = token + caracter
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
-                
+
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
                 contColuna = 0
@@ -219,6 +231,7 @@ else:
                 contColuna = contColuna + 1
             else:
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
 
         elif re.match("\*|\^",caracter) is not None:
             ###########OPERACAO ARITIMETICA ENCONTRADA##############
@@ -227,6 +240,7 @@ else:
             contColuna = contColuna + 1
             if re.match("[a-z]|[A-Z]|\_",caracter) is not None: #DIVISAO
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
                 caracter = codigoFonte.read(1)
                 contColuna = contColuna + 1
             elif re.match("\n",caracter):
@@ -264,6 +278,7 @@ else:
                             break
             elif re.match("[a-z]|[A-Z]|\_|\ ",caracter) is not None: #DIVISAO
                 operadores.append([token,contLinha,contColuna])
+                tokens.append([token,contLinha,contColuna,2,"OP"])
 
             elif re.match("\n",caracter):
                 contLinha = contLinha + 1
@@ -277,6 +292,7 @@ else:
         ##################SEPARADOR ENCONTRADO####################
             token = token + caracter
             separadores.append([token,contLinha,contColuna])
+            tokens.append([token,contLinha,contColuna,3,"SEP"])
             caracter = codigoFonte.read(1)
             contColuna = contColuna + 1
 
@@ -302,6 +318,7 @@ else:
                 if re.match("\>",caracter) is not None:
                         token = token + caracter
                         includes.append([token,contLinha,contColuna])
+                        tokens.append([token,contLinha,contColuna,4,"INCLU"])
                         caracter = codigoFonte.read(1)
                         contColuna = contColuna + 1
                         break
@@ -323,6 +340,7 @@ else:
                     contColuna = 0
                 else:
                     identificadores.append([token,contLinha,contColuna])
+                    tokens.append([token,contLinha,contColuna,5,"ID"])
                     break
 
         else:
@@ -335,8 +353,13 @@ for i in identificadores:
             identificadores.remove(i)
 
 
-
-
+saidaToken.write("Classes:\n0 - numerais\n1 - literais\n2 - operacao\n3 - separador\n4 - includes\n5 - identificadores\n")
+saidaToken.write("###################################################################################\n")
+saidaToken.write("Token\tLinha\tColuna\tCodigo\tClasse\n-----------------------------------\n")
+for i in tokens:
+    for j in i:
+        saidaToken.write(str(j)+"\t")
+    saidaToken.write("\n")
 saidaRes.write("Token \t Linha \t Coluna \n-----------------------------------\n")
 for i in reservadas:
     for j in i:
@@ -386,6 +409,7 @@ saidaSep.close()
 saidaRes.close()
 saidaOp.close()
 saidaIncl.close()
+saidaToken.close()
 
 codigoFonte.close()
 
