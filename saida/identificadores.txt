@@ -3,7 +3,6 @@ Token 	 Linha 	 Coluna
 a	1	6	
 b	1	8	
 c	1	10	
-a	2	2	
-c	3	2	
-a	3	6	
-b	4	2	
+c	2	2	
+a	2	6	
+b	3	2	

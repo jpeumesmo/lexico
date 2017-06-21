@@ -9,22 +9,18 @@ Classes:
 ###################################################################################
 Token	Linha	Coluna	Codigo	Classe
 -----------------------------------
-int	1	4	6	RESERVADA	
-a	1	6	5	ID	
-,	1	6	3	SEP	
-b	1	8	5	ID	
-,	1	8	3	SEP	
-c	1	10	5	ID	
-;	1	10	3	SEP	
-a	2	2	5	ID	
-=	2	4	2	OP	
-"teste"	2	11	1	LIT	
-;	2	12	3	SEP	
-c	3	2	5	ID	
-=	3	4	2	OP	
-a	3	6	5	ID	
-;	3	6	3	SEP	
-b	4	2	5	ID	
-=	4	4	2	OP	
-1	4	6	0	NUM	
-;	4	6	3	SEP	
+0	int	1	4	6	RESERVADA	
+1	a	1	6	5	ID	
+2	,	1	6	3	SEP	
+3	b	1	8	5	ID	
+4	,	1	8	3	SEP	
+5	c	1	10	5	ID	
+6	;	1	10	3	SEP	
+7	c	2	2	5	ID	
+8	=	2	4	2	OP	
+9	a	2	6	5	ID	
+10	;	2	6	3	SEP	
+11	b	3	2	5	ID	
+12	=	3	4	2	OP	
+13	1	3	6	0	NUM	
+14	;	3	6	3	SEP	

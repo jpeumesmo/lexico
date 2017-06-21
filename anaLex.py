@@ -360,10 +360,13 @@ for i in identificadores:
 saidaToken.write("Classes:\n0 - numerais\n1 - literais\n2 - operacao\n3 - separador\n4 - includes\n5 - identificadores\n6 - reservada\n")
 saidaToken.write("###################################################################################\n")
 saidaToken.write("Token\tLinha\tColuna\tCodigo\tClasse\n-----------------------------------\n")
+cont = 0
 for i in tokens:
+    saidaToken.write(str(cont)+"\t")
     for j in i:
         saidaToken.write(str(j)+"\t")
     saidaToken.write("\n")
+    cont = cont + 1
 saidaRes.write("Token \t Linha \t Coluna \n-----------------------------------\n")
 for i in reservadas:
     for j in i:
@@ -417,6 +420,5 @@ saidaToken.close()
 
 codigoFonte.close()
 
-sintatico(tokens,0)
-
+i = sintatico(tokens,-1)
 print("fim")
