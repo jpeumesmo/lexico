@@ -1,3 +1,2 @@
 Token 	 Linha 	 Coluna 
 -----------------------------------
-#include <stdio.h>	1	18	

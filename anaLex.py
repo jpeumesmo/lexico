@@ -8,7 +8,7 @@
 * ----------------------------------------------------------------------------
 '''
 import re,sys,os
-
+from gramatica import *
 
 ##############################TABELAS########################################
 tokens = []
@@ -339,8 +339,12 @@ else:
                     contLinha = contLinha + 1
                     contColuna = 0
                 else:
-                    identificadores.append([token,contLinha,contColuna])
-                    tokens.append([token,contLinha,contColuna,5,"ID"])
+                    if (token in listaReservadas):
+                        identificadores.append([token,contLinha,contColuna])
+                        tokens.append([token,contLinha,contColuna,6,"RESERVADA"])
+                    else:
+                        identificadores.append([token,contLinha,contColuna])
+                        tokens.append([token,contLinha,contColuna,5,"ID"])
                     break
 
         else:
@@ -353,7 +357,7 @@ for i in identificadores:
             identificadores.remove(i)
 
 
-saidaToken.write("Classes:\n0 - numerais\n1 - literais\n2 - operacao\n3 - separador\n4 - includes\n5 - identificadores\n")
+saidaToken.write("Classes:\n0 - numerais\n1 - literais\n2 - operacao\n3 - separador\n4 - includes\n5 - identificadores\n6 - reservada\n")
 saidaToken.write("###################################################################################\n")
 saidaToken.write("Token\tLinha\tColuna\tCodigo\tClasse\n-----------------------------------\n")
 for i in tokens:
@@ -412,5 +416,7 @@ saidaIncl.close()
 saidaToken.close()
 
 codigoFonte.close()
+
+sintatico(tokens,0)
 
 print("fim")

@@ -5,45 +5,26 @@ Classes:
 3 - separador
 4 - includes
 5 - identificadores
+6 - reservada
 ###################################################################################
 Token	Linha	Coluna	Codigo	Classe
 -----------------------------------
-#include <stdio.h>	1	18	4	INCLU	
-int	3	4	5	ID	
-main	3	9	5	ID	
-(	3	9	3	SEP	
-)	3	10	3	SEP	
-{	3	11	3	SEP	
-int	5	6	5	ID	
-a	5	8	5	ID	
-;	5	8	3	SEP	
-int	6	6	5	ID	
-integer	6	14	5	ID	
-=	6	16	2	OP	
-1	6	18	0	NUM	
-;	6	18	3	SEP	
-int	7	6	5	ID	
-b	7	8	5	ID	
-=	7	10	2	OP	
-2.5	7	14	0	NUM	
-;	7	14	3	SEP	
-float	8	8	5	ID	
-a	8	10	5	ID	
-=	8	12	2	OP	
-;	8	13	3	SEP	
-char	12	1	5	ID	
-"teste"	12	8	1	LIT	
-a	13	4	5	ID	
-=	13	6	2	OP	
-integer	13	14	5	ID	
-+	13	16	2	OP	
-b	13	18	5	ID	
-;	13	18	3	SEP	
-++	17	4	2	OP	
---	18	4	2	OP	
-||	19	4	2	OP	
-&&	20	4	2	OP	
-return	23	9	5	ID	
-0	23	11	0	NUM	
-;	23	11	3	SEP	
-}	24	1	3	SEP	
+int	1	4	6	RESERVADA	
+a	1	6	5	ID	
+,	1	6	3	SEP	
+b	1	8	5	ID	
+,	1	8	3	SEP	
+c	1	10	5	ID	
+;	1	10	3	SEP	
+a	2	2	5	ID	
+=	2	4	2	OP	
+"teste"	2	11	1	LIT	
+;	2	12	3	SEP	
+c	3	2	5	ID	
+=	3	4	2	OP	
+a	3	6	5	ID	
+;	3	6	3	SEP	
+b	4	2	5	ID	
+=	4	4	2	OP	
+1	4	6	0	NUM	
+;	4	6	3	SEP	
