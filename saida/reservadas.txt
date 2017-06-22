@@ -1,6 +1,4 @@
 Token 	 Linha 	 Coluna 
 -----------------------------------
 int	1	4	
-if	5	3	
-while	9	6	
-if	12	3	
+int	2	4	
