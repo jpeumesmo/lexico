@@ -421,4 +421,5 @@ saidaToken.close()
 codigoFonte.close()
 
 i = sintatico(tokens,-1)
+print(tokens[i][0],i)
 print("fim")

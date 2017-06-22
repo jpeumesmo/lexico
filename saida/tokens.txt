@@ -23,4 +23,12 @@ Token	Linha	Coluna	Codigo	Classe
 11	b	3	2	5	ID	
 12	=	3	4	2	OP	
 13	1	3	6	0	NUM	
-14	;	3	6	3	SEP	
+14	||	3	8	2	OP	
+15	a	3	11	5	ID	
+16	;	3	11	3	SEP	
+17	a	4	2	5	ID	
+18	=	4	4	2	OP	
+19	b	4	6	5	ID	
+20	&&	4	8	2	OP	
+21	a	4	11	5	ID	
+22	;	4	11	3	SEP	

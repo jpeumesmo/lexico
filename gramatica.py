@@ -2,6 +2,7 @@ def sintatico(token,i):
 	token.append(['$',None,None,7,'END'])
 	i = programa(token,i)
 	return i
+
 def programa(token,i):
 	i = nextSimb(i)
 	if (token[i][3] == 5):
@@ -16,8 +17,21 @@ def programa(token,i):
 		i = declaracao(token,i)
 		i = programa(token,i)
 		return i
+
+	elif(token[i][0] == "while"):
+		i = repeticao(token,i)
+		i = programa(token,i)
+
+	elif(token[i][0] == "if"):
+		i = condicao(token,i)
+		i = programa(token,i)
 	else:
 		return i
+
+def condicao(token,i):
+	return i
+def repeticao(token,i):
+	return i
 
 def declaracao(token,i):
 	i = nextSimb(i)
@@ -68,9 +82,9 @@ def T(token,i):
 		return i
 
 def Tlinha(token,i):
-	if(token[i][0]=="+" or token[i][0]==")" or token[i][0]==";" or token[i][0]== "-"):
+	if(token[i][0]=="+" or token[i][0]==")" or token[i][0]==";" or token[i][0]== "-" or token[i][0]== "||"):
 		return i
-	elif(token[i][0]=="*" or token[i][0]=="/"):
+	elif(token[i][0]=="*" or token[i][0]=="/" or token[i][0]== "&&"):
 		i = nextSimb(i)
 		i = F(token,i)
 		i = Tlinha(token,i)
@@ -97,7 +111,7 @@ def F(token,i):
 
 
 def Elinha(token,i):
-	if(token[i][0] == "+" or token[i][0]=="-"):
+	if(token[i][0] == "+" or token[i][0]=="-" or token[i][0]== "||"):
 		i = nextSimb(i)
 		i =T(token,i)
 		i = Elinha(token,i)
