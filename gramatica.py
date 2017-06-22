@@ -109,6 +109,10 @@ def declaracao(token,i):
 def atribuicao(token,i):
 	global variaveis
 	global statement
+
+	statement = []
+	statement.append(None)
+	statement.append(token[i][0])
 	if (len(variaveis) == 0):
 		erro(i,"nodeclared",token)
 	else:
@@ -199,7 +203,7 @@ def erro(i,flag,token):
 		j = i - 1
 		sys.exit("Erro dupla declaracao de variavel "+token[j][0] +" linha: "+str(token[j][1])+" coluna: "+str(token[j][2]))
 	elif (flag == "nodeclared"):
-		j = i - 2
+		j = i - 1
 		sys.exit("Erro variavel nao declarada "+token[j][0] +" linha: "+str(token[j][1])+" coluna: "+str(token[j][2]))
 	else:
 		sys.exit("Erro token:"+token[i][0]+"\tlinha: "+str(token[i][1])+"\tcoluna: "+str(token[i][2]))
