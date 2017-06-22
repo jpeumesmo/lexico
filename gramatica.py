@@ -1,3 +1,5 @@
+import sys
+
 def sintatico(token,i):
 	token.append(['$',None,None,7,'END'])
 	i = programa(token,i)
@@ -21,15 +23,34 @@ def programa(token,i):
 	elif(token[i][0] == "while"):
 		i = repeticao(token,i)
 		i = programa(token,i)
+		return i
 
 	elif(token[i][0] == "if"):
 		i = condicao(token,i)
 		i = programa(token,i)
+		return i
 	else:
 		return i
 
 def condicao(token,i):
-	return i
+	i = nextSimb(i)
+	if (token[i][0] == "("):
+		i = nextSimb(i)
+		i = E(token,i)
+		if (token[i][0] == ")"):
+			i = nextSimb(i)
+			if (token[i][0] == "{"):
+				i = programa(token,i)
+				if (token[i][0] == "}"):
+					return i
+				else:
+					erro(i,"condicao",token)
+			else:
+				erro(i,"condicao",token)
+		else:
+			erro(i,"condicao",token)
+	else:
+		erro(i,"condicao",token)
 def repeticao(token,i):
 	return i
 
@@ -82,7 +103,9 @@ def T(token,i):
 		return i
 
 def Tlinha(token,i):
-	if(token[i][0]=="+" or token[i][0]==")" or token[i][0]==";" or token[i][0]== "-" or token[i][0]== "||"):
+	if(token[i][0]=="+" or token[i][0]==")" or token[i][0]==";" or token[i][0]== "-" or token[i][0]== "||"
+	 or token[i][0]== ">" or token[i][0]== "<"  or token[i][0]== "=="  or token[i][0]== "!="
+	 or token[i][0]== "<="  or token[i][0]== ">="):
 		return i
 	elif(token[i][0]=="*" or token[i][0]=="/" or token[i][0]== "&&"):
 		i = nextSimb(i)
@@ -111,7 +134,9 @@ def F(token,i):
 
 
 def Elinha(token,i):
-	if(token[i][0] == "+" or token[i][0]=="-" or token[i][0]== "||"):
+	if(token[i][0] == "+" or token[i][0]=="-" or token[i][0]== "||"
+	or token[i][0]== ">" or token[i][0]== "<"  or token[i][0]== "=="  or token[i][0]== "!="
+	or token[i][0]== "<="  or token[i][0]== ">="):
 		i = nextSimb(i)
 		i =T(token,i)
 		i = Elinha(token,i)
@@ -123,8 +148,8 @@ def Elinha(token,i):
 		return i
 
 def erro(i,flag,token):
-    print("Erro" , i, flag, token[i][0])
-    return
+	#print("Erro" , i, flag, token[i][0])
+	sys.exit("Erro token:"+token[i][0]+"\tlinha: "+str(token[i][1])+"\tcoluna: "+str(token[i][2]))
 
 def nextSimb(i):
     i = i + 1

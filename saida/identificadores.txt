@@ -10,3 +10,12 @@ a	3	11
 a	4	2	
 b	4	6	
 a	4	11	
+a	5	6	
+b	5	11	
+a	6	4	
+b	6	8	
+asdasdif	9	3	
+a	9	6	
+a	9	11	
+asasdasd	10	11	
+as	10	16	
