@@ -5,7 +5,10 @@ a = b && a;
 if (a || b){
   a = b;
 }
-asdasd
+
+while(a!=1){
+  teste = a;
+}
 if (a == a){
   asasdasd = as;
 }

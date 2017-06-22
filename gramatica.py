@@ -52,7 +52,24 @@ def condicao(token,i):
 	else:
 		erro(i,"condicao",token)
 def repeticao(token,i):
-	return i
+	i = nextSimb(i)
+	if(token[i][0]== "("):
+		i = nextSimb(i)
+		i = E(token,i)
+		if (token[i][0] == ")"):
+			i = nextSimb(i)
+			if (token[i][0] == "{"):
+				i = programa(token,i)
+				if (token[i][0] == "}"):
+					return i
+				else:
+					erro(i,"repeticao",token)
+			else:
+				erro(i,"repeticao",token)
+		else:
+			erro(i,"repeticao",token)
+	else:
+		erro(i,"repeticao",token)
 
 def declaracao(token,i):
 	i = nextSimb(i)
