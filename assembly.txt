@@ -1,0 +1,6 @@
+Store $t0,a
+Store $t1,b
++ a,b
+Load $t2,b
+- a,b
+Load $t3,b

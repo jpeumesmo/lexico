@@ -41,6 +41,8 @@ saidaToken = open(path+"/saida/tokens.txt",'w')
 
 
 
+
+
 ########################VARIAVEIS CONTADORAS E AUXILIARES#####################
 contLinha = 1
 contColuna = 0

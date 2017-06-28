@@ -15,7 +15,15 @@ Token	Linha	Coluna	Codigo	Classe
 3	int	2	4	6	RESERVADA	
 4	b	2	6	5	ID	
 5	;	2	6	3	SEP	
-6	c	3	2	5	ID	
+6	b	3	2	5	ID	
 7	=	3	4	2	OP	
 8	a	3	6	5	ID	
-9	;	3	6	3	SEP	
+9	+	3	7	2	OP	
+10	b	3	8	5	ID	
+11	;	3	8	3	SEP	
+12	b	4	2	5	ID	
+13	=	4	4	2	OP	
+14	a	4	6	5	ID	
+15	-	4	7	2	OP	
+16	b	4	8	5	ID	
+17	;	4	8	3	SEP	
