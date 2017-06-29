@@ -76,15 +76,25 @@ def condicao(token,i):
 		erro(i,"condicao",token)
 
 def repeticao(token,i):
+	global contVariaveis
+	global contLabel
+
 	i = nextSimb(i)
 	if(token[i][0]== "("):
 		i = nextSimb(i)
 		i = E(token,i)
+		if(not valido):
+			erro(i,"operacao",token)
+		geraCod("Load $t"+str(contVariaveis)+","+token[i-1][0])
 		if (token[i][0] == ")"):
 			i = nextSimb(i)
 			if (token[i][0] == "{"):
+				geraCod("bne "+"1,"+"$t"+str(contVariaveis)+" label"+str(contLabel))
+				contVariaveis = contVariaveis + 1
 				i = programa(token,i)
 				if (token[i][0] == "}"):
+					geraCod("label"+str(contLabel))
+					contLabel = contLabel + 1
 					return i
 				else:
 					erro(i,"repeticao",token)

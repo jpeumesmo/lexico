@@ -7,3 +7,7 @@ bne 1,$t3 label1
 + a,b
 Load $t4,a
 label1
+== a,a
+Load $t5,b
+bne 1,$t5 label2
+label2
