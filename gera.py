@@ -8,7 +8,7 @@ def geraCod(comando):
 #	global assembly
     global cont
     global codigo
-    print(comando)
+    #print(comando)
     codigo.append(comando)
     #assembly.write(comando+"\n")
     return

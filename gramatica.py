@@ -1,4 +1,4 @@
-import sys
+import re,sys
 from gera import *
 
 variaveis = []
@@ -8,11 +8,15 @@ tipo1 = None
 tipo2 = None
 valido = None
 operacao = None
+falha = 0
+contLabel = 1
+operacoes = ["==","+","-","||",">","<","!=","<=",">=","*","/","&&"]
 
 def sintatico(token,i):
 	token.append(['$',None,None,7,'END'])
 	i = programa(token,i)
-	fim()
+	if (falha == 0):
+		fim()
 	return i
 
 def programa(token,i):
@@ -43,15 +47,24 @@ def programa(token,i):
 		return i
 
 def condicao(token,i):
+	global contVariaveis
+	global contLabel
 	i = nextSimb(i)
 	if (token[i][0] == "("):
 		i = nextSimb(i)
 		i = E(token,i)
+		if(not valido):
+			erro(i,"operacao",token)
+		geraCod("Load $t"+str(contVariaveis)+","+token[i-1][0])
 		if (token[i][0] == ")"):
 			i = nextSimb(i)
 			if (token[i][0] == "{"):
+				geraCod("bne "+"1,"+"$t"+str(contVariaveis)+" label"+str(contLabel))
+				contVariaveis = contVariaveis + 1
 				i = programa(token,i)
 				if (token[i][0] == "}"):
+					geraCod("label"+str(contLabel))
+					contLabel = contLabel + 1
 					return i
 				else:
 					erro(i,"condicao",token)
@@ -164,16 +177,23 @@ def T(token,i):
 	global tipo1
 	global tipo2
 	global operacao
+	global operacoes
 	if(token[i][3]==5 or token[i][3]==1 or token[i][3]==0  or  token[i][0]=="(" ):
 		i = F(token,i)
 		i,op = Tlinha(token,i)
 
-		if (tipo2 is None or op != ";"):
+		if(tipo2 is None ):
 			operacao = op
-
+		elif (op == ")" or op == ";"):
+			operacao = operacao
 		else:
-				#print("a")
+			flag = 0
+			if(op in operacoes):
+				flag = 1
+				geraCod(str(op)+" "+str(tipo1[1])+","+str(tipo2[1]))
+			elif (operacao in operacoes and flag == 0):
 				geraCod(str(operacao)+" "+str(tipo1[1])+","+str(tipo2[1]))
+
 		return i
 	else:
 		erro(i,"T",token)
@@ -214,7 +234,8 @@ def F(token,i):
 				if (tipo1 is None):
 					tipo1 = v
 				else:
-					tipo2 = v
+					tipo2 = tipo1
+					tipo1 = v
 		i = nextSimb(i)
 		return i
 	else:
@@ -238,6 +259,8 @@ def Elinha(token,i):
 
 def erro(i,flag,token):
 	#print("Erro" , i, flag, token[i][0])
+	global falha
+	falha = 1
 	if (flag == "dupla"):
 		j = i - 1
 		sys.exit("Erro dupla declaracao de variavel "+token[j][0] +" linha: "+str(token[j][1])+" coluna: "+str(token[j][2]))

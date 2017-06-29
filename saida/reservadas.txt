@@ -2,3 +2,4 @@ Token 	 Linha 	 Coluna
 -----------------------------------
 int	1	4	
 int	2	4	
+if	4	3	
