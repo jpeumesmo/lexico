@@ -89,10 +89,13 @@ def repeticao(token,i):
 		if (token[i][0] == ")"):
 			i = nextSimb(i)
 			if (token[i][0] == "{"):
+				geraCod("label"+str(contLabel))
+				contLabel = contLabel + 1
 				geraCod("bne "+"1,"+"$t"+str(contVariaveis)+" label"+str(contLabel))
 				contVariaveis = contVariaveis + 1
 				i = programa(token,i)
 				if (token[i][0] == "}"):
+					geraCod("Jump label"+str(contLabel-1))
 					geraCod("label"+str(contLabel))
 					contLabel = contLabel + 1
 					return i

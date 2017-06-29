@@ -6,3 +6,5 @@ Token 	 Linha 	 Coluna
 =	5	7	
 +	5	11	
 ==	8	10	
+=	9	8	
++	9	12	

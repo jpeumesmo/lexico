@@ -42,4 +42,10 @@ Token	Linha	Coluna	Codigo	Classe
 30	b	8	12	5	ID	
 31	)	8	12	3	SEP	
 32	{	8	13	3	SEP	
-33	}	10	1	3	SEP	
+33	a	9	6	5	ID	
+34	=	9	8	2	OP	
+35	a	9	10	5	ID	
+36	+	9	12	2	OP	
+37	1	9	13	0	NUM	
+38	;	9	13	3	SEP	
+39	}	10	1	3	SEP	
